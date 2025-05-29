@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Code Editor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" />
+  <style>
+    body { font-family: monospace; padding: 20px; }
+    #editor { height: 300px; border: 1px solid #ccc; }
+    #output { white-space: pre-wrap; border: 1px solid #ccc; height: 150px; padding: 10px; margin-top: 10px; overflow-y: auto; background: #f7f7f7;}
+    #inputArea { width: 100%; height: 50px; }
+  </style>
+</head>
+<body>
+
+<h2>Mini Python Code Editor</h2>
+
+<textarea id="editor">print("Hello, world!")</textarea>
+<br>
+
+<label>Input (stdin):</label><br>
+<textarea id="inputArea"></textarea><br>
+
+<button onclick="runCode()">Run Code</button>
+
+<h3>Output:</h3>
+<div id="output"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+    lineNumbers: true,
+    mode: "python",
+    theme: "default"
+  });
+
+  function runCode() {
+    var code = editor.getValue();
+    var input = document.getElementById("inputArea").value;
+
+    fetch('http://127.0.0.1:5000/run', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ code: code, input: input })
+    })
+    .then(response => response.json())
+    .then(data => {
+      var outputDiv = document.getElementById("output");
+      outputDiv.textContent = "";
+      if(data.errors){
+        outputDiv.textContent += "Errors:\n" + data.errors + "\n";
+      }
+      if(data.output){
+        outputDiv.textContent += "Output:\n" + data.output;
+      }
+    })
+    .catch(error => alert('Error: ' + error));
+  }
+</script>
+
+</body>
+</html>
