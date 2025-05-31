@@ -5,6 +5,9 @@ import subprocess
 
 app = Flask(__name__)
 CORS(app)
+@app.route("/")
+def home():
+    return "✅ Flask Code Runner is Live! POST your code to /run"
 
 
 @app.route('/run', methods=['POST'])
