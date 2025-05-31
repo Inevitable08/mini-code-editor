@@ -48,7 +48,7 @@ CORS(app)
 
 @app.route('/')
 def serve_frontend():
-    return send_from_directory(app.static_folder, 'index.html')
+    return send_from_directory(app.static_folder, 'Index.html')
 
 @app.route('/run', methods=['POST'])
 def run_code():
