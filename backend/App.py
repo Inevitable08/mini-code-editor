@@ -5,9 +5,9 @@ import subprocess
 
 app = Flask(__name__)
 CORS(app)
-@app.route("/")
-def home():
-    return render_template("index.html") 
+@app.route('/')
+def serve_frontend():
+    return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/run', methods=['POST'])
