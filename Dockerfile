@@ -5,7 +5,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy backend files
-COPY Backend/ /app
+COPY backend/ /app
 
 # Install dependencies
 RUN pip install flask flask_cors
