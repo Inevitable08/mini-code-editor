@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 @app.route("/")
 def home():
-    return "✅ Flask Code Runner is Live! POST your code to /run"
+    return render_template("index.html") 
 
 
 @app.route('/run', methods=['POST'])
